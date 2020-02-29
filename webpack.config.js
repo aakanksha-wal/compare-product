@@ -8,11 +8,34 @@ const path = require('path');
         filename: 'bundle.js'
     },
     module: {
-        rules: [{
+        rules: [
+        {
             test: /\.js$/,
             include: path.resolve(__dirname, 'src'),
             use: ['babel-loader']
-        }]
+        },
+        {
+            test: /\.scss$/,
+            loaders: [
+                require.resolve('style-loader'),
+                require.resolve('css-loader'),
+                require.resolve('sass-loader')
+            ]
+        },
+        {
+            test: /\.css$/i,
+            use: ['style-loader', 'css-loader'],
+        },
+        {
+            test: /\.(jpg|png)$/,
+            use: {
+              loader: "file-loader",
+              options: {
+                name: "[path][name].[hash].[ext]",
+              },
+            },
+        },
+        ]
     },
     devServer: {
         contentBase:  path.resolve(__dirname, 'dist'),
